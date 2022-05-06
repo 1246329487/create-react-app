@@ -9,24 +9,16 @@ import {
   ContainerOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import logo from '../image/logo.png';
-import styles from './App.less'
-
+import Header from "../component/Header";
 function App() {
   const [collapsed, setCollapsed] = useState(false);
-
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
   return (
     <Router>
       <div>
-        <header className={styles.header}>
-          <img src={logo} alt='数据监控' />
-          <span className="time" key="time">
-            {new Date().toLocaleString()}
-          </span>
-        </header>
+        <Header />
         <div
           style={{
             width: 256,
