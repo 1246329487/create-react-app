@@ -1,5 +1,5 @@
 const Home = ()=>{
-    return <div style={{'backgroundColor':''}}>
+    return <div >
         home
     </div>
 }

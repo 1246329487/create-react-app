@@ -1,34 +1,16 @@
-import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
-import Home from './home';
-import Login from './login';
-import { Menu, Button } from 'antd';
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import Home from "./home";
+import Login from "./login";
+import { Menu, Button } from "antd";
 import {
-  MenuUnfoldOutlined,
   MenuFoldOutlined,
   PieChartOutlined,
-  MailOutlined,
-} from '@ant-design/icons';
-import { useState } from 'react';
-
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  };
-}
-
-const items = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Navigation One', 'sub1', <MailOutlined />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Option 7', '7'),
-    getItem('Option 8', '8'),
-  ]),
-];
+  DesktopOutlined,
+  ContainerOutlined,
+} from "@ant-design/icons";
+import { useState } from "react";
+import logo from '../image/logo.png';
+import styles from './App.less'
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -38,36 +20,59 @@ function App() {
   };
   return (
     <Router>
-
-    <div
-      style={{
-        width: 256,
-        height: '100%',
-        float:'left'
-      }}
-    >
-      <Button
-        type="primary"
-        onClick={toggleCollapsed}
-        style={{
-          marginBottom: 16,
-        }}
-      >
-        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-      </Button>
-      <Menu
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        mode="inline"
-        theme="dark"
-        inlineCollapsed={collapsed}
-        items={items}
-      />
-    </div>
-      <Routes>
-        <Route exact path="/home" element={<Home/>} />
-        <Route path="/login" element={<Login/>} />
+      <div>
+        <header className={styles.header}>
+          <img src={logo} alt='数据监控' />
+          <span className="time" key="time">
+            {new Date().toLocaleString()}
+          </span>
+        </header>
+        <div
+          style={{
+            width: 256,
+            height: "100%",
+            float: "left",
+          }}
+        >
+          <Menu
+            defaultSelectedKeys={[`${window.location.pathname}`]}
+            mode="inline"
+            inlineCollapsed={collapsed}
+          >
+            <Menu.Item key={"/home"}>
+              <Link to={"/home"}>
+                <PieChartOutlined /> <span>home</span>{" "}
+              </Link>
+            </Menu.Item>
+            <Menu.Item key={"/login"}>
+              <Link to={"/login"}>
+                <DesktopOutlined />
+                <span>login</span>{" "}
+              </Link>
+            </Menu.Item>
+            <Menu.SubMenu title="子菜单" icon={<ContainerOutlined />}>
+              <Menu.Item>
+                <ContainerOutlined /> <span>子菜单项</span>{" "}
+              </Menu.Item>
+            </Menu.SubMenu>
+            <Button
+              type="text"
+              onClick={toggleCollapsed}
+              style={{
+                marginBottom: 16,
+                position: "absolute",
+                bottom: "0",
+              }}
+            >
+              <MenuFoldOutlined style={{ fontSize: "16px", color: "grey" }} />
+            </Button>
+          </Menu>
+        </div>
+        <Routes>
+          <Route exact path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
+      </div>
     </Router>
   );
 }
