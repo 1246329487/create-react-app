@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import Home from "./home";
-import Login from "./login";
+import Home from "./home/index.tsx";
+import Login from "./login/index.tsx";
 import { Menu, Button } from "antd";
 import {
   MenuFoldOutlined,
@@ -17,13 +17,12 @@ function App() {
   };
   return (
     <Router>
-      <div>
-        <Header />
+      <Header />
+      <div style={{'height':'100%','display':'flex'}}>
         <div
           style={{
             width: 256,
             height: "100%",
-            float: "left",
           }}
         >
           <Menu
@@ -42,8 +41,8 @@ function App() {
                 <span>login</span>{" "}
               </Link>
             </Menu.Item>
-            <Menu.SubMenu title="子菜单" icon={<ContainerOutlined />}>
-              <Menu.Item>
+            <Menu.SubMenu title="子菜单" key={'children'} icon={<ContainerOutlined />}>
+              <Menu.Item key='/children2'>
                 <ContainerOutlined /> <span>子菜单项</span>{" "}
               </Menu.Item>
             </Menu.SubMenu>
@@ -60,10 +59,12 @@ function App() {
             </Button>
           </Menu>
         </div>
+        <div style={{'width':'100%'}}>
         <Routes>
           <Route exact path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
         </Routes>
+        </div>
       </div>
     </Router>
   );

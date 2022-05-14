@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // 维护权限列表
+    const jobList = ["FE", "BE"];
+
+    // 策略
+    var strategies = {
+      checkRole: function (value) {
+        return value === "juejin";
+      },
+      checkGrade: function (value) {
+        return value >= 1;
+      },
+      checkJob: function (value) {
+        return jobList.indexOf(value) > 1;
+      },
+      checkEatType: function (value) {
+        return value === "eat melons";
+      },
+    };
+
+    // 校验规则
+    var Validator = function () {
+      this.cache = [];
+
+      // 添加策略事件
+      this.add = function (value, method) {
+        this.cache.push(function () {
+          return strategies[method](value);
+        });
+      };
+
+      // 检查
+      this.check = function () {
+        for (let i = 0; i < this.cache.length; i++) {
+          let valiFn = this.cache[i];
+          var data = valiFn(); // 开始检查
+          if (!data) {
+            return false;
+          }
+        }
+        return true;
+      };
+    };
+
+    // 小彭使用策略模式进行操作
+    var compose1 = function () {
+      var validator = new Validator();
+      const data1 = {
+        role: "juejin",
+        grade: 3,
+      };
+      validator.add(data1.role, "checkRole");
+      validator.add(data1.grade, "checkGrade");
+      console.log("validator", validator);
+      const result = validator.check();
+      return result;
+    };
+    // 阿宽使用策略模式进行操作
+    var compose2 = function () {
+      var validator = new Validator();
+      const data2 = {
+        role: "juejin",
+        job: "FE",
+      };
+      validator.add(data2.role, "checkRole");
+      validator.add(data2.job, "checkJob");
+      const result = validator.check();
+      return result;
+    };
+  </script>
+</html>

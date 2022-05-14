@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      function applySuccess() {
+        // 通知消息中心获取最新内容
+        MessageCenter.fetch();
+        // 更新订单信息
+        Order.update();
+        // 通知相关方审核
+        Checker.alert();
+
+        // maybe 更多
+        Log.write();
+      }
+
+      const EventEmit = function () {
+        this.events = {};
+        this.on = function (name, cb) {
+          if (this.events[name]) {
+            this.events[name].push(cb);
+          } else {
+            this.events[name] = [cb];
+          }
+        };
+        this.trigger = function (name, ...arg) {
+          if (this.events[name]) {
+            this.events[name].forEach((eventListener) => {
+              eventListener(...arg);
+            });
+          }
+        };
+      };
+
+      let event = new EventEmit();
+      event.trigger("success");
+      //   MessageCenter.fetch() {
+      //     event.on('success', () => {
+      //       console.log('更新消息中心');
+      //     });
+      //   };
+      //   Order.update() {
+      //     event.on('success', () => {
+      //       console.log('更新订单信息');
+      //     });
+      //   };
+      //   Checker.alert() {
+      //     event.on('success', () => {
+      //       console.log('通知管理员');
+      //     });
+      //   };
+    </script>
+  </body>
+</html>
